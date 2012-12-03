@@ -19,12 +19,9 @@ public class WormBook extends Book {
     private static final int MAX_CHARS_ON_PAGE = 192;
 
     public static WormBook load(File wormBookFile) throws IOException, IllegalArgumentException {
-        FileInputStream fis = null;
+        BufferedReader bw = null;
         try {
-            fis = new FileInputStream(wormBookFile);
-            UnicodeBOMInputStream bomStream = new UnicodeBOMInputStream(fis);
-            BufferedReader bw = new BufferedReader(new InputStreamReader(bomStream, "utf-8"));
-            bomStream.skipBOM();
+            bw = BookWormLoader.openReader(wormBookFile);
 
             String idString = bw.readLine();
             Validate.notNull(idString, "Not a bookworm book file: " + wormBookFile.getName());
@@ -44,7 +41,7 @@ public class WormBook extends Book {
 
             return new WormBook(id, title, author, textToPages(text));
         } finally {
-            if (fis != null) fis.close();
+            if (bw != null) bw.close();
         }
     }
 

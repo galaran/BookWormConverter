@@ -1,2 +1,8 @@
-convert-on-sneaking: false
-to-unsigned-book: false
+# RMB, holding BookWorm book
+convert:
+    on-sneaking: false
+    to-unsigned: false
+
+# LMB on BookWorm bookshelve, holding Book and Quill
+copy-bookshelves:
+    to-unsigned: false
