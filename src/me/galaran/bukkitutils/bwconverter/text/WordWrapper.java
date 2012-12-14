@@ -1,4 +1,4 @@
-package me.galaran.bukkitutils.bwconverter;
+package me.galaran.bukkitutils.bwconverter.text;
 
 import java.util.ArrayList;
 import java.util.List;

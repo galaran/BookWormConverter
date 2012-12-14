@@ -1,11 +1,12 @@
 package com.galaran.plugins.bookwormconverter;
 
-import me.galaran.bukkitutils.bwconverter.Book;
-import me.galaran.bukkitutils.bwconverter.UnicodeBOMInputStream;
-import me.galaran.bukkitutils.bwconverter.WordWrapper;
+import me.galaran.bukkitutils.bwconverter.nms.Book;
+import me.galaran.bukkitutils.bwconverter.text.WordWrapper;
 import org.apache.commons.lang.Validate;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;

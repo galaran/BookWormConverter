@@ -79,9 +79,9 @@ public class BookWormConverter extends JavaPlugin implements Listener {
 
         ItemStack converted;
         if (convertToUnsigned) {
-            converted = book.toUnsignedBook(bookStack.getAmount());
+            converted = book.toUnsignedBook((short) 0, bookStack.getAmount());
         } else {
-            converted = book.toSignedBook(bookStack.getAmount());
+            converted = book.toSignedBook((short) 0, bookStack.getAmount());
         }
         player.sendMessage(ChatColor.GREEN + "Book converted");
         player.setItemInHand(converted);
@@ -102,9 +102,9 @@ public class BookWormConverter extends JavaPlugin implements Listener {
 
         ItemStack copy;
         if (copyBookshelvesToUnsigned) {
-            copy = shelfBook.toUnsignedBook(bookAndQuillStack.getAmount());
+            copy = shelfBook.toUnsignedBook((short) 1, bookAndQuillStack.getAmount());
         } else {
-            copy = shelfBook.toSignedBook(bookAndQuillStack.getAmount());
+            copy = shelfBook.toSignedBook((short) 1, bookAndQuillStack.getAmount());
         }
         player.setItemInHand(copy);
         player.sendMessage(ChatColor.GREEN + "Book copied");

@@ -1,4 +1,4 @@
-package me.galaran.bukkitutils.bwconverter;
+package me.galaran.bukkitutils.bwconverter.nms;
 
 import net.minecraft.server.NBTTagCompound;
 import net.minecraft.server.NBTTagList;
@@ -66,9 +66,10 @@ public class Book implements ConfigurationSerializable {
         this.pages = pages;
     }
 
-    public ItemStack toSignedBook(int amount) {
-        CraftItemStack newbook = new CraftItemStack(Material.WRITTEN_BOOK);
-        newbook.setAmount(amount);
+    public ItemStack toSignedBook(short data, int amount) {
+        CraftItemStack resultStack = new CraftItemStack(Material.WRITTEN_BOOK);
+        resultStack.setDurability(data);
+        resultStack.setAmount(amount);
 
         NBTTagCompound newBookNBT = new NBTTagCompound();
 
@@ -81,17 +82,18 @@ public class Book implements ConfigurationSerializable {
         }
         newBookNBT.set("pages", nPages);
 
-        newbook.getHandle().tag = newBookNBT;
-        return newbook;
+        resultStack.getHandle().tag = newBookNBT;
+        return resultStack;
     }
 
     public ItemStack toSignedBook() {
-        return toSignedBook(1);
+        return toSignedBook((short) 0, 1);
     }
 
-    public ItemStack toUnsignedBook(int amount) {
-        CraftItemStack newbook = new CraftItemStack(Material.BOOK_AND_QUILL);
-        newbook.setAmount(amount);
+    public ItemStack toUnsignedBook(short data, int amount) {
+        CraftItemStack resultStack = new CraftItemStack(Material.BOOK_AND_QUILL);
+        resultStack.setDurability(data);
+        resultStack.setAmount(amount);
 
         NBTTagCompound newBookNBT = new NBTTagCompound();
 
@@ -101,12 +103,12 @@ public class Book implements ConfigurationSerializable {
         }
         newBookNBT.set("pages", nPages);
 
-        newbook.getHandle().tag = newBookNBT;
-        return newbook;
+        resultStack.getHandle().tag = newBookNBT;
+        return resultStack;
     }
 
     public ItemStack toUnsignedBook() {
-        return toUnsignedBook(1);
+        return toUnsignedBook((short) 0, 1);
     }
 
     public Book(ConfigurationSection section) {
