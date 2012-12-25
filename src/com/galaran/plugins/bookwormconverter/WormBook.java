@@ -1,8 +1,10 @@
 package com.galaran.plugins.bookwormconverter;
 
-import me.galaran.bukkitutils.bwconverter.nms.Book;
 import me.galaran.bukkitutils.bwconverter.text.WordWrapper;
 import org.apache.commons.lang.Validate;
+import org.bukkit.Bukkit;
+import org.bukkit.Material;
+import org.bukkit.inventory.meta.BookMeta;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -12,12 +14,14 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Pattern;
 
-public class WormBook extends Book {
-
-    private final short id;
+public class WormBook {
 
     private static final int GUARANTEED_NO_WRAP_BOOK_PAGE_WIDTH = 16;
     private static final int MAX_CHARS_ON_PAGE = 192;
+    
+    private final short id;
+    
+    private final BookMeta bookMeta;
 
     public static WormBook load(File wormBookFile) throws IOException, IllegalArgumentException {
         BufferedReader bw = null;
@@ -47,8 +51,12 @@ public class WormBook extends Book {
     }
 
     private WormBook(short id, String title, String author, String[] pages) {
-        super(title, author, pages);
         this.id = id;
+        
+        bookMeta = (BookMeta) Bukkit.getItemFactory().getItemMeta(Material.WRITTEN_BOOK);
+        bookMeta.setTitle(title);
+        bookMeta.setAuthor(author);
+        bookMeta.setPages(pages);
     }
 
     private static String[] textToPages(String bookWormText) {
@@ -109,5 +117,9 @@ public class WormBook extends Book {
 
     public short getId() {
         return id;
+    }
+
+    public BookMeta getBookMeta() {
+        return bookMeta;
     }
 }

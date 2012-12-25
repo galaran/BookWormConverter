@@ -1,5 +1,5 @@
 name: BookWormConverter
 main: com.galaran.plugins.bookwormconverter.BookWormConverter
-version: 1.2
+version: 1.3
 description: BookWorm to 1.3 minecraft books converter
 author: Galaran

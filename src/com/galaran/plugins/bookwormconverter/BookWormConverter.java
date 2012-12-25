@@ -39,7 +39,7 @@ public class BookWormConverter extends JavaPlugin implements Listener {
 
         final BookWormLoader loader = new BookWormLoader(getLogger(), getDataFolder());
 
-        // load data when all worlds are loaded (Location requires World)
+        // load data when all worlds are loaded (Location requires loaded World)
         Bukkit.getScheduler().scheduleSyncDelayedTask(this, new Runnable() {
             @Override
             public void run() {
@@ -50,7 +50,7 @@ public class BookWormConverter extends JavaPlugin implements Listener {
         }, 1);
     }
 
-    @EventHandler(priority = EventPriority.MONITOR)
+    @EventHandler(priority = EventPriority.NORMAL)
     public void onPlayerInteract(PlayerInteractEvent event) {
         Player player = event.getPlayer();
         ItemStack handStack = player.getItemInHand();
@@ -74,15 +74,12 @@ public class BookWormConverter extends JavaPlugin implements Listener {
         short bookData = bookStack.getDurability();
         if (bookData == 0) return; // not a BookWorm book
 
-        WormBook book = books.get(bookData);
-        if (book == null) return;
+        WormBook wormBook = books.get(bookData);
+        if (wormBook == null) return;
 
-        ItemStack converted;
-        if (convertToUnsigned) {
-            converted = book.toUnsignedBook((short) 0, bookStack.getAmount());
-        } else {
-            converted = book.toSignedBook((short) 0, bookStack.getAmount());
-        }
+        ItemStack converted = new ItemStack(convertToUnsigned ? Material.BOOK_AND_QUILL : Material.WRITTEN_BOOK, bookStack.getAmount());
+        converted.setItemMeta(wormBook.getBookMeta().clone());
+        
         player.sendMessage(ChatColor.GREEN + "Book converted");
         player.setItemInHand(converted);
     }
@@ -100,12 +97,9 @@ public class BookWormConverter extends JavaPlugin implements Listener {
             return;
         }
 
-        ItemStack copy;
-        if (copyBookshelvesToUnsigned) {
-            copy = shelfBook.toUnsignedBook((short) 1, bookAndQuillStack.getAmount());
-        } else {
-            copy = shelfBook.toSignedBook((short) 1, bookAndQuillStack.getAmount());
-        }
+        ItemStack copy = new ItemStack(copyBookshelvesToUnsigned ? Material.BOOK_AND_QUILL : Material.WRITTEN_BOOK, bookAndQuillStack.getAmount());
+        copy.setItemMeta(shelfBook.getBookMeta().clone());
+        
         player.setItemInHand(copy);
         player.sendMessage(ChatColor.GREEN + "Book copied");
     }
